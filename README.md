@@ -11,11 +11,44 @@ Tools to build and serve a local knowledge base for Claude Code and Open Code vi
 
 The pipeline clones git repositories, compacts them with `gitingest`, indexes them into a local FAISS vector database, and serves the knowledge via MCP.
 
-## Setup
+## Installation
 
 ```bash
 uv venv --python 3.12 && source .venv/bin/activate
 uv sync
+```
+
+**Install the LocalRag skill** (Claude Code):
+
+```bash
+ln -s "$(pwd)/skills/LocalRag" ~/.claude/skills/LocalRag
+```
+
+**Configure MCP** so the skill can query the vector store — add to `~/.claude/mcp.json` or project-level `.mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "local-faiss-mcp": {
+      "command": "/path/to/tools/.venv/bin/local-faiss-mcp",
+      "args": ["--index-dir", "/path/to/tools/.vector_store"]
+    }
+  }
+}
+```
+
+For OpenCode, add to `~/.config/opencode/opencode.json`:
+
+```json
+{
+  "mcp": {
+    "local-faiss-mcp": {
+      "type": "local",
+      "command": ["/path/to/tools/.venv/bin/local-faiss-mcp", "--index-dir", "/path/to/tools/.vector_store"],
+      "enabled": true
+    }
+  }
+}
 ```
 
 ## Usage
@@ -67,34 +100,15 @@ Starts the `local-faiss-mcp` server against the local vector store:
 uv run pipeline serve
 ```
 
-Or configure it permanently in your MCP settings:
+## LocalRag Skill
 
-**Claude Code** — `~/.claude/mcp.json` or project-level `.mcp.json`:
+The `skills/LocalRag/` directory contains a Claude Code skill that queries the local vector store on demand — issuing targeted semantic searches instead of loading full documents. Three workflows are included:
 
-```json
-{
-  "mcpServers": {
-    "local-faiss-mcp": {
-      "command": "/path/to/tools/.venv/bin/local-faiss-mcp",
-      "args": ["--index-dir", "/path/to/tools/.vector_store"]
-    }
-  }
-}
-```
-
-**OpenCode** — `~/.config/opencode/opencode.json` (global) or `opencode.json` in project root:
-
-```json
-{
-  "mcp": {
-    "local-faiss-mcp": {
-      "type": "local",
-      "command": ["/path/to/tools/.venv/bin/local-faiss-mcp", "--index-dir", "/path/to/tools/.vector_store"],
-      "enabled": true
-    }
-  }
-}
-```
+| Workflow | Triggers |
+|----------|----------|
+| `QueryKnowledge` | conceptual questions — "how does X work" |
+| `FindExamples` | usage questions — "show me an example of X" |
+| `LookupApi` | signature lookups — "what parameters does X take" |
 
 ## Tools
 
