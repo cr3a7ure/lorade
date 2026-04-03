@@ -1,0 +1,6 @@
+# Add one GitHub (or any git) URL per line
+# Lines starting with # are ignored
+# Example:
+# https://github.com/anthropics/anthropic-sdk-python
+# https://github.com/openai/openai-python
+https://github.com/pydantic/pydantic

@@ -1,0 +1,6 @@
+{
+  "enabledMcpjsonServers": [
+    "local-faiss-mcp"
+  ],
+  "enableAllProjectMcpServers": true
+}
