@@ -1,6 +1,11 @@
-# Claude/Open Code Tools
+# Lorade
 
 Tools to build and serve a local knowledge base for Claude Code and Open Code via MCP.
+
+## Expected output
+
+- Always keep up-to-date software references
+- Reduce amount of tokens consumed
 
 ## Overview
 
@@ -9,6 +14,7 @@ The pipeline clones git repositories, compacts them with `gitingest`, indexes th
 ## Setup
 
 ```bash
+uv venv --python 3.12 && source .venv/bin/activate
 uv sync
 ```
 
@@ -32,6 +38,7 @@ uv run pipeline ingest repos.csv
 ```
 
 Produces:
+
 - `repos/<name>/` — cloned repositories
 - `ingested/<name>.txt` — gitingest compacted output
 - `.vector_store/` — FAISS index
