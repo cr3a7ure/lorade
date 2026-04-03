@@ -20,14 +20,22 @@ uv sync
 
 ## Usage
 
-### 1. Add repos
+### 1. Populate repos from project dependencies
 
-Edit `repos.csv` — one git URL per line, lines starting with `#` are ignored:
+Scan a project's dependencies and resolve them to GitHub URLs, appending to `repos.csv`:
 
+```bash
+# Python (reads pyproject.toml / requirements.txt)
+uv run pipeline deps /path/to/python-project
+
+# JavaScript (reads package.json)
+uv run pipeline deps /path/to/js-project
+
+# Resolve deps and immediately ingest
+uv run pipeline deps /path/to/project --ingest
 ```
-https://github.com/anthropics/anthropic-sdk-python
-https://github.com/openai/openai-python
-```
+
+Or manually edit `repos.csv` — one git URL per line, `#` lines are ignored.
 
 ### 2. Ingest
 

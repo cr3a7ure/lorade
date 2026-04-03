@@ -5,6 +5,7 @@ description = "Knowledge ingestion pipeline for Claude/Open Code via gitingest +
 requires-python = ">=3.12"
 dependencies = [
     "gitingest>=0.3.1",
+    "httpx>=0.27",
     "local-faiss-mcp>=0.2.1",
 ]
 

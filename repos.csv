@@ -4,3 +4,5 @@
 # https://github.com/anthropics/anthropic-sdk-python
 # https://github.com/openai/openai-python
 https://github.com/pydantic/pydantic
+https://github.com/encode/httpx
+https://github.com/nonatofabio/local_faiss_mcp
